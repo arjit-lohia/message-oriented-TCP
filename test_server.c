@@ -5,16 +5,18 @@
 
 #define BUFF_MAX 50
 
-int main(int argc, char *argv[]){
-   	int			sockfd, newsockfd ; // Socket descriptors
-	socklen_t	clilen; // client length
-	struct sockaddr_in	cli_addr, serv_addr;
+int main(int argc, char *argv[])
+{
+    int sockfd, newsockfd; // Socket descriptors
+    socklen_t clilen;      // client length
+    struct sockaddr_in cli_addr, serv_addr;
     char buffer[BUFF_MAX];
-	memset(buffer, 0, BUFF_MAX);
-	memset(&serv_addr, 0, sizeof(serv_addr));
-	memset(&cli_addr, 0, sizeof(cli_addr));
+    memset(buffer, 0, BUFF_MAX);
+    memset(&serv_addr, 0, sizeof(serv_addr));
+    memset(&cli_addr, 0, sizeof(cli_addr));
 
-    if ((sockfd = my_socket(AF_INET, SOCK_MyTCP, 0)) < 0) {
+    if ((sockfd = my_socket(AF_INET, SOCK_MyTCP, 0)) < 0)
+    {
         perror("Cannot create socket\n");
         exit(EXIT_FAILURE);
     }
@@ -25,7 +27,8 @@ int main(int argc, char *argv[]){
     serv_addr.sin_addr.s_addr = INADDR_ANY;
     serv_addr.sin_port = htons(atoi(argv[1]));
 
-    if (my_bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+    if (my_bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    {
         perror("Bind failed");
         exit(EXIT_FAILURE);
     }
@@ -34,7 +37,7 @@ int main(int argc, char *argv[]){
     my_listen(sockfd, 10);
 
     clilen = sizeof(cli_addr);
-    newsockfd = my_accept(sockfd, (struct sockaddr *) &cli_addr, &clilen) ;
+    newsockfd = my_accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
     printf("Connection accepted\n");
     int ret = my_send(newsockfd, "hello", 6, 0);
     printf("ret: %d\n", ret);
@@ -82,8 +85,4 @@ int main(int argc, char *argv[]){
     printf("%d\n", sockfd);
     ret = my_close(sockfd);
     printf("ret: %d\n", ret);
-    
-
-
-
 }
